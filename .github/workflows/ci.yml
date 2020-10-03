@@ -16,4 +16,4 @@ jobs:
       - name: test
         run: npm run test
       - name: prettier
-        run: npm run format -- --checkk
+        run: npm run format -- --check
