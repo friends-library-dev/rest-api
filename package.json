@@ -19,10 +19,10 @@
     "format": "fldev format"
   },
   "dependencies": {
-    "@friends-library/env": "^1.1.0",
+    "@friends-library/env": "^1.2.0",
     "@friends-library/friends": "^1.1.1"
   },
   "devDependencies": {
-    "@friends-library/dev": "^4.0.8"
+    "@friends-library/dev": "^4.1.5"
   }
 }
