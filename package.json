@@ -13,6 +13,7 @@
     "predeploy": "npm run ensure-not-symlinked # <-- don't bundle dev deps",
     "ensure-not-symlinked": "test ! -L ./node_modules/@friends-library/friends",
     "test": "true",
+    "compile": "true",
     "lint": "fldev lint",
     "lint:fix": "fldev lint:fix",
     "ts:check": "fldev ts:check",
