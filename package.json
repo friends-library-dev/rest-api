@@ -9,7 +9,7 @@
   "scripts": {
     "start": "netlify dev --functions ./functions",
     "build": "netlify functions:build --src ./functions --functions ./built-functions",
-    "deploy": "mkdir -p ./build && npm run build && netlify deploy --dir=./build --functions=./built-functions # --prod",
+    "deploy": "mkdir -p ./build && npm run build && netlify deploy --dir=./build --functions=./built-functions",
     "predeploy": "npm run ensure-not-symlinked # <-- don't bundle dev deps",
     "ensure-not-symlinked": "test ! -L ./node_modules/@friends-library/friends",
     "test": "true",
@@ -21,9 +21,9 @@
   },
   "dependencies": {
     "@friends-library/env": "^1.2.0",
-    "@friends-library/friends": "^1.1.1"
+    "@friends-library/friends": "^1.4.0"
   },
   "devDependencies": {
-    "@friends-library/dev": "^4.1.5"
+    "@friends-library/dev": "^4.1.11"
   }
 }
