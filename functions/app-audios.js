@@ -2,8 +2,10 @@
 require(`@friends-library/env/load`);
 const env = require(`@friends-library/env`).default;
 const { getAllFriends } = require(`@friends-library/friends`);
+const docMeta = require(`@friends-library/document-meta`);
 
 exports.handler = async function (event) {
+  const meta = await docMeta.fetchSingleton();
   const { CLOUD_STORAGE_BUCKET_URL: CLOUD_URL } = env.require(`CLOUD_STORAGE_BUCKET_URL`);
   const lang = event.queryStringParameters.lang === `es` ? `es` : `en`;
   const friends = getAllFriends(lang, true);
@@ -13,6 +15,8 @@ exports.handler = async function (event) {
       doc.editions.forEach((edition) => {
         if (edition.isDraft) return;
         if (!edition.audio) return;
+        const edMeta = meta.get(edition.path);
+        if (!edMeta) throw new Error(`Missing edition meta for ${edition.path}`);
         const { audio } = edition;
         audios.push({
           id: `${doc.id}--${edition.type}`,
@@ -27,9 +31,9 @@ exports.handler = async function (event) {
             audioId: `${doc.id}--${edition.type}`,
             index,
             title: part.title,
-            duration: part.seconds,
-            size: part.filesizeHq,
-            sizeLq: part.filesizeLq,
+            duration: edMeta.audio.durations[index],
+            size: edMeta.audio.HQ.parts[index].mp3Size,
+            sizeLq: edMeta.audio.LQ.parts[index].mp3Size,
             url: `${CLOUD_URL}/${audio.partFilepath(index, `HQ`)}`,
             urlLq: `${CLOUD_URL}/${audio.partFilepath(index, `LQ`)}`,
           })),

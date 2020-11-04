@@ -11,7 +11,7 @@
     "build": "netlify functions:build --src ./functions --functions ./built-functions",
     "deploy": "mkdir -p ./build && npm run build && netlify deploy --dir=./build --functions=./built-functions",
     "predeploy": "npm run ensure-not-symlinked # <-- don't bundle dev deps",
-    "ensure-not-symlinked": "test ! -L ./node_modules/@friends-library/friends",
+    "ensure-not-symlinked": "test ! -L ./node_modules/@friends-library/friends && test ! -L ./node_modules/@friends-library/document-meta && test ! -L ./node_modules/@friends-library/env",
     "test": "true",
     "compile": "true",
     "lint": "fldev lint",
@@ -20,10 +20,11 @@
     "format": "fldev format"
   },
   "dependencies": {
+    "@friends-library/document-meta": "^2.1.0",
     "@friends-library/env": "^1.2.0",
-    "@friends-library/friends": "^1.4.0"
+    "@friends-library/friends": "^2.1.0"
   },
   "devDependencies": {
-    "@friends-library/dev": "^4.1.11"
+    "@friends-library/dev": "^4.1.12"
   }
 }
