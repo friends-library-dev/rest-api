@@ -1,5 +1,6 @@
 node_modules/
 .netlify/
 build/
+dist/
 built-functions/
 .DS_Store
