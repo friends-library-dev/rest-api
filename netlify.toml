@@ -1,8 +1,12 @@
 [build]
-  command = "yarn build"
-  functions = "./packages/api/built-functions"
+  command = "npm run build"
+  publish = "build/"
+  functions = "dist/"
 
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+[dev]
+  autoLaunch = false

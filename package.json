@@ -7,13 +7,11 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "netlify dev --functions ./functions",
-    "build": "netlify functions:build --src ./functions --functions ./built-functions",
-    "deploy": "mkdir -p ./build && npm run build && netlify deploy --dir=./build --functions=./built-functions",
-    "predeploy": "npm run ensure-not-symlinked # <-- don't bundle dev deps",
-    "ensure-not-symlinked": "test ! -L ./node_modules/@friends-library/friends && test ! -L ./node_modules/@friends-library/document-meta && test ! -L ./node_modules/@friends-library/env",
+    "start": "netlify-lambda serve ./src --config ./webpack.config.js --port 8888",
+    "build": "netlify-lambda build ./src",
+    "deploy": "mkdir -p ./build && npm run build && netlify deploy",
     "test": "true",
-    "compile": "true",
+    "compile": "fldev ts:compile",
     "lint": "fldev lint",
     "lint:fix": "fldev lint:fix",
     "ts:check": "fldev ts:check",
@@ -22,9 +20,21 @@
   "dependencies": {
     "@friends-library/document-meta": "^2.1.0",
     "@friends-library/env": "^1.2.0",
-    "@friends-library/friends": "^2.1.0"
+    "@friends-library/friends": "^2.6.1",
+    "@friends-library/types": "^3.0.0",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "@friends-library/dev": "^4.1.12"
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-typescript": "^7.3.3",
+    "@babel/runtime": "^7.7.2",
+    "@friends-library/dev": "^4.1.12",
+    "@types/aws-lambda": "^8.10.64",
+    "@types/node-fetch": "^2.5.7",
+    "netlify-lambda": "^2.0.1"
   }
 }
