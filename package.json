@@ -8,8 +8,9 @@
   "license": "MIT",
   "scripts": {
     "start": "netlify-lambda serve ./src --config ./webpack.config.js --port 8888",
+    "prebuild": "mkdir -p ./build",
     "build": "netlify-lambda build ./src",
-    "deploy": "mkdir -p ./build && npm run build && netlify deploy",
+    "deploy": "npm run build && netlify deploy",
     "test": "true",
     "compile": "fldev ts:compile",
     "lint": "fldev lint",
