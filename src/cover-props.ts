@@ -1,5 +1,6 @@
 import { Handler, APIGatewayEvent } from 'aws-lambda';
-import { setResolveMap, getFriend, jsFriendMap } from '@friends-library/friends';
+import { jsFriendMap } from '@friends-library/friends';
+import { setResolveMap, getFriend } from '@friends-library/friends/query';
 import { Lang, isEdition, CoverProps } from '@friends-library/types';
 import * as docMeta from '@friends-library/document-meta';
 import fetch from 'node-fetch';
@@ -18,7 +19,7 @@ const handler: Handler = async (event: APIGatewayEvent) => {
   }
 
   try {
-    var friend = getFriend(friendSlug, lang);
+    var friend = getFriend(friendSlug || ``, lang);
   } catch (e) {
     return clientError(`unknown friend ${lang}/${friendSlug}`);
   }
@@ -39,7 +40,7 @@ const handler: Handler = async (event: APIGatewayEvent) => {
     return clientError(`missing edition meta for ${editionPath}`);
   }
 
-  const customCode = [``, ``];
+  const customCode: [string, string] = [``, ``];
   const org = lang === `en` ? `friends-library` : `biblioteca-de-los-amigos`;
   const endpoint = `https://raw.githubusercontent.com`;
   const codeUri = `${endpoint}/${org}/${friendSlug}/master/${docSlug}`;
@@ -60,7 +61,7 @@ const handler: Handler = async (event: APIGatewayEvent) => {
     title: document.title,
     isCompilation: document.isCompilation,
     author: friend.name,
-    pages: edMeta.paperback.volumes[0],
+    pages: edMeta.paperback.volumes[0] || 200,
     size: edMeta.paperback.size,
     edition: editionType,
     isbn: edition.isbn,
