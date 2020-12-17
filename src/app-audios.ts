@@ -1,11 +1,8 @@
 import '@friends-library/env/load';
 import env from '@friends-library/env';
 import { Handler, APIGatewayEvent } from 'aws-lambda';
-import {
-  allPublishedAudiobooks,
-  jsFriendMap,
-  setResolveMap,
-} from '@friends-library/friends';
+import { jsFriendMap } from '@friends-library/friends';
+import { allPublishedAudiobooks, setResolveMap } from '@friends-library/friends/query';
 import * as docMeta from '@friends-library/document-meta';
 
 interface Audio {
@@ -57,9 +54,9 @@ const handler: Handler = async (event: APIGatewayEvent) => {
         audioId: `${doc.id}--${edition.type}`,
         index,
         title: part.title,
-        duration: audioMeta.durations[index],
-        size: audioMeta.HQ.parts[index].mp3Size,
-        sizeLq: audioMeta.LQ.parts[index].mp3Size,
+        duration: audioMeta.durations[index] ?? 0,
+        size: audioMeta.HQ.parts[index]?.mp3Size ?? 0,
+        sizeLq: audioMeta.LQ.parts[index]?.mp3Size ?? 0,
         url: `${CLOUD_URL}/${audio.partFilepath(index, `HQ`)}`,
         urlLq: `${CLOUD_URL}/${audio.partFilepath(index, `LQ`)}`,
       })),
