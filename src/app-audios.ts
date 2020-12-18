@@ -10,6 +10,7 @@ interface Audio {
   date: string;
   title: string;
   friend: string;
+  friendSort: string;
   reader: string;
   artwork: string;
   description: string;
@@ -32,7 +33,6 @@ const handler: Handler = async (event: APIGatewayEvent) => {
   const { CLOUD_STORAGE_BUCKET_URL: CLOUD_URL } = env.require(`CLOUD_STORAGE_BUCKET_URL`);
   const lang = event.queryStringParameters?.lang === `es` ? `es` : `en`;
   const audioResources: Audio[] = [];
-  console.log(allPublishedAudiobooks(lang).length);
   allPublishedAudiobooks(lang).forEach((edition) => {
     const { audio, document: doc } = edition;
     const { friend } = doc;
@@ -46,6 +46,7 @@ const handler: Handler = async (event: APIGatewayEvent) => {
       date: audio.added.toString(),
       title: doc.title,
       friend: friend.name,
+      friendSort: friend.alphabeticalName,
       reader: audio.reader,
       artwork: `${CLOUD_URL}/${audio.imagePath}`,
       description: doc.description,
