@@ -15,6 +15,7 @@ async function main(): Promise<void> {
     }
   }
   fs.writeFileSync(`${buildDir}/index.html`, JSON.stringify(routes.map((r) => `/${r}`)));
+  fs.writeFileSync(`${buildDir}/404.html`, JSON.stringify([{ msg: `Not Found` }]));
 }
 
 main();
