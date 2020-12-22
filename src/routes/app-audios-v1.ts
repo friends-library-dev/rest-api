@@ -1,11 +1,11 @@
 import '@friends-library/env/load';
 import env from '@friends-library/env';
-import { Handler, APIGatewayEvent } from 'aws-lambda';
-import { jsFriendMap } from '@friends-library/friends';
-import { allPublishedAudiobooks, setResolveMap } from '@friends-library/friends/query';
+import { Lang } from '@friends-library/types';
+import { allPublishedAudiobooks } from '@friends-library/friends/query';
 import * as docMeta from '@friends-library/document-meta';
+import { RouteGenerator } from '../types.internal';
 
-interface Audio {
+export interface Resource {
   id: string;
   date: string;
   title: string;
@@ -27,13 +27,25 @@ interface Audio {
   }[];
 }
 
-const handler: Handler = async (event: APIGatewayEvent) => {
-  setResolveMap(jsFriendMap);
+export type Route = Resource[];
+
+const generate: RouteGenerator<Route> = async () => {
   const meta = await docMeta.fetchSingleton();
+  const resourcesEn = appAudios(`en`, meta);
+  const resourcesEs = appAudios(`es`, meta);
+  return {
+    'app-audios/v1/en': resourcesEn,
+    'app-audios/latest/en': resourcesEn,
+    'app-audios/v1/es': resourcesEs,
+    'app-audios/latest/es': resourcesEs,
+  };
+};
+
+export default generate;
+
+function appAudios(lang: Lang, meta: docMeta.DocumentMeta): Route {
   const { CLOUD_STORAGE_BUCKET_URL: CLOUD_URL } = env.require(`CLOUD_STORAGE_BUCKET_URL`);
-  const lang = event.queryStringParameters?.lang === `es` ? `es` : `en`;
-  const audioResources: Audio[] = [];
-  allPublishedAudiobooks(lang).forEach((edition) => {
+  return allPublishedAudiobooks(lang).map((edition) => {
     const { audio, document: doc } = edition;
     const { friend } = doc;
     if (!audio) throw new Error(`Missing audio`);
@@ -41,7 +53,7 @@ const handler: Handler = async (event: APIGatewayEvent) => {
     if (!edMeta) throw new Error(`Missing edition meta for ${edition.path}`);
     const audioMeta = edMeta.audio;
     if (!audioMeta) throw new Error(`Missing audio metadata for ${edition.path}`);
-    audioResources.push({
+    return {
       id: `${doc.id}--${edition.type}`,
       date: audio.added.toString(),
       title: doc.title,
@@ -61,17 +73,6 @@ const handler: Handler = async (event: APIGatewayEvent) => {
         url: `${CLOUD_URL}/${audio.partFilepath(index, `HQ`)}`,
         urlLq: `${CLOUD_URL}/${audio.partFilepath(index, `LQ`)}`,
       })),
-    });
+    };
   });
-  return {
-    statusCode: 200,
-    headers: {
-      'Content-Type': `application/json`,
-      'Access-Control-Allow-Origin': `*`,
-      'Access-Control-Allow-Headers': `*`,
-    },
-    body: JSON.stringify(audioResources),
-  };
-};
-
-export { handler };
+}
