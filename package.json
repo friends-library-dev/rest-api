@@ -17,16 +17,14 @@
     "ts:check": "fldev ts:check",
     "format": "fldev format"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@friends-library/dev": "^4.1.15",
     "@friends-library/document-meta": "^2.2.0",
     "@friends-library/env": "^1.2.0",
     "@friends-library/friends": "^3.3.0",
     "@friends-library/types": "^3.0.0",
-    "node-fetch": "^2.6.1"
-  },
-  "devDependencies": {
-    "@friends-library/dev": "^4.1.15",
     "@types/node-fetch": "^2.5.7",
+    "node-fetch": "^2.6.1",
     "serve": "^11.3.2",
     "x-ts-utils": "^1.0.1"
   }
