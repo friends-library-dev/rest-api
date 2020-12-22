@@ -5,6 +5,27 @@
 [dev]
   autoLaunch = false
 
+[[redirects]]
+  from = "/app-audios"
+  to = "/app-audios/v1/:lang"
+  status = 301
+  query = {lang = ":lang"}
+
+[[redirects]]
+  from = "/app-audios"
+  to = "/app-audios/v1/en"
+  status = 301
+
+[[redirects]]
+  from = "/cover-props/en/*"
+  to = "/cover-props/v1/en/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/cover-props/es/*"
+  to = "/cover-cover/v1/es/:splat"
+  status = 301
+
 [[headers]]
   for = "/*"
   [headers.values]
