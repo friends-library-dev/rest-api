@@ -1,16 +1,15 @@
 {
   "name": "@friends-library/api",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Friends Library APIs",
   "author": "Jared Henderson <jared@netrivet.com>",
   "repository": "github:friends-library-dev/api",
-  "private": true,
+  "main": "./dist/types.routes.js",
   "license": "MIT",
   "scripts": {
-    "start": "netlify-lambda serve ./src --config ./webpack.config.js --port 8888",
-    "prebuild": "mkdir -p ./build",
-    "build": "netlify-lambda build ./src",
-    "deploy": "npm run build && netlify deploy",
+    "preserve": "npm run build && cp ./serve.json ./build",
+    "serve": "serve ./build -l 8888",
+    "build": "fldev tsnode ./src/build.ts",
     "test": "true",
     "compile": "fldev ts:compile",
     "lint": "fldev lint",
@@ -23,20 +22,12 @@
     "@friends-library/env": "^1.2.0",
     "@friends-library/friends": "^3.3.0",
     "@friends-library/types": "^3.0.0",
-    "encoding": "^0.1.13",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.7.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
-    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
-    "@babel/plugin-transform-object-assign": "^7.2.0",
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-typescript": "^7.3.3",
-    "@babel/runtime": "^7.7.2",
     "@friends-library/dev": "^4.1.15",
-    "@types/aws-lambda": "^8.10.64",
     "@types/node-fetch": "^2.5.7",
-    "netlify-lambda": "^2.0.1"
+    "serve": "^11.3.2",
+    "x-ts-utils": "^1.0.1"
   }
 }

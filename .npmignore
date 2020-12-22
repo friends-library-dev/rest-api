@@ -1,0 +1,12 @@
+netlify.toml
+.netlify/
+build/
+src/
+.github/
+serve.json
+tsconfig.json
+dist/routes/
+dist/*.js
+dist/*.d.ts
+!dist/types.routes.js
+!dist/types.routes.d.ts

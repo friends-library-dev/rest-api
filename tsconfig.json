@@ -4,7 +4,9 @@
     "esModuleInterop": true,
     "module":"CommonJS",
     "strict": true,
-    "target": "ES2017",
+    "lib": ["ES2019"],
+    "target": "ES2019",
+    "declaration": true,
     "noUncheckedIndexedAccess": true,
     "outDir": "./dist",
     "rootDir": "./src"
