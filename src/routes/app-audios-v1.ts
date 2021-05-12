@@ -15,7 +15,7 @@ export interface Resource {
   artwork: string;
   description: string;
   shortDescription: string;
-  parts: {
+  parts: Array<{
     audioId: string;
     index: number;
     title: string;
@@ -24,10 +24,10 @@ export interface Resource {
     sizeLq: number;
     url: string;
     urlLq: string;
-  }[];
+  }>;
 }
 
-export type Route = Resource[];
+export type Route = Array<Resource>;
 
 const generate: RouteGenerator<Route> = async () => {
   const meta = await docMeta.fetchSingleton();
@@ -44,7 +44,7 @@ const generate: RouteGenerator<Route> = async () => {
 export default generate;
 
 function appAudios(lang: Lang, meta: docMeta.DocumentMeta): Route {
-  const { CLOUD_STORAGE_BUCKET_URL: CLOUD_URL } = env.require(`CLOUD_STORAGE_BUCKET_URL`);
+  const CLOUD_URL = env.requireVar(`CLOUD_STORAGE_BUCKET_URL`);
   return allPublishedAudiobooks(lang).map((edition) => {
     const { audio, document: doc } = edition;
     const { friend } = doc;
