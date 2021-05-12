@@ -19,6 +19,7 @@ export interface Resource {
   documentDescription: string;
   documentShortDescription: string;
   numTotalPaperbackPages: number;
+  isMostModernized: boolean;
   chapters: Array<{
     shortTitle: string;
   }>;
@@ -31,10 +32,10 @@ const generate: RouteGenerator<Route> = async () => {
   const enResources = editions(`en`, meta);
   const esResources = editions(`es`, meta);
   return {
-    'editions/v1/en': enResources,
-    'editions/latest/en': enResources,
-    'editions/v1/es': esResources,
-    'editions/latest/es': esResources,
+    'app-editions/v1/en': enResources,
+    'app-editions/latest/en': enResources,
+    'app-editions/v1/es': esResources,
+    'app-editions/latest/es': esResources,
   };
 };
 
@@ -74,6 +75,7 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
       documentDescription: document.description,
       documentShortDescription: document.partialDescription ?? document.description,
       numTotalPaperbackPages: edMeta.paperback.volumes.reduce((acc, vol) => acc + vol),
+      isMostModernized: edition.isMostModernized,
       chapters: evald.chapters.map((ch) => ({ shortTitle: ch.shortHeading })),
     };
   });

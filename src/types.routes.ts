@@ -9,9 +9,9 @@ import type {
 } from './routes/app-audios-v1';
 
 import type {
-  Resource as EditionResourceV1,
-  Route as EditionsRouteV1,
-} from './routes/editions-v1';
+  Resource as AppEditionResourceV1,
+  Route as AppEditionsRouteV1,
+} from './routes/app-editions-v1';
 
 /**
  * @deprecated use `AppAudioResourceV1` instead
@@ -24,6 +24,6 @@ export {
   AppAudiosRouteV1,
   CoverPropsResourceV1,
   CoverPropsRouteV1,
-  EditionResourceV1,
-  EditionsRouteV1,
+  AppEditionResourceV1,
+  AppEditionsRouteV1,
 };
