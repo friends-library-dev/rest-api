@@ -10,6 +10,7 @@ import { query, hydrate } from '@friends-library/dpc-fs';
 export interface Resource {
   id: string;
   documentId: string;
+  revision: string;
   type: EditionType;
   publishedDate: string;
   documentTitle: string;
@@ -77,6 +78,7 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
       numTotalPaperbackPages: edMeta.paperback.volumes.reduce((acc, vol) => acc + vol),
       isMostModernized: edition.isMostModernized,
       chapters: evald.chapters.map((ch) => ({ shortTitle: ch.shortHeading })),
+      revision: edMeta.revision,
     };
   });
 }
