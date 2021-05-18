@@ -16,6 +16,7 @@ export interface Resource {
   documentTitle: string;
   friendName: string;
   friendNameSort: string;
+  url: string;
   squareCoverImageUrl: string;
   documentDescription: string;
   documentShortDescription: string;
@@ -68,6 +69,7 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
       id: `${document.id}--${edition.type}`,
       documentId: document.id,
       type: edition.type,
+      url: `${CLOUD_URL}/${dpc.path}/${edition.filename(`app-ebook`)}`,
       publishedDate: edMeta.published,
       documentTitle: document.title,
       friendName: document.friend.name,
