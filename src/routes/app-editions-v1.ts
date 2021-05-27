@@ -1,6 +1,11 @@
 import '@friends-library/env/load';
 import env from '@friends-library/env';
-import { EditionType, Lang } from '@friends-library/types';
+import {
+  EditionType,
+  Lang,
+  SquareCoverImageSize,
+  SQUARE_COVER_IMAGE_SIZES,
+} from '@friends-library/types';
 import { allPublishedEditions } from '@friends-library/friends/query';
 import * as docMeta from '@friends-library/document-meta';
 import { RouteGenerator } from '../types.internal';
@@ -17,14 +22,12 @@ export interface Resource {
   friendName: string;
   friendNameSort: string;
   url: string;
-  squareCoverImageUrl: string;
   documentDescription: string;
   documentShortDescription: string;
   numTotalPaperbackPages: number;
   isMostModernized: boolean;
-  chapters: Array<{
-    shortTitle: string;
-  }>;
+  images: Array<{ size: SquareCoverImageSize; url: string }>;
+  chapters: Array<{ shortTitle: string }>;
 }
 
 export type Route = Array<Resource>;
@@ -74,13 +77,18 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
       documentTitle: document.title,
       friendName: document.friend.name,
       friendNameSort: document.friend.alphabeticalName,
-      squareCoverImageUrl: `${CLOUD_URL}/${edition.squareCoverImagePath}`,
       documentDescription: document.description,
       documentShortDescription: document.partialDescription ?? document.description,
       numTotalPaperbackPages: edMeta.paperback.volumes.reduce((acc, vol) => acc + vol),
       isMostModernized: edition.isMostModernized,
-      chapters: evald.chapters.map((ch) => ({ shortTitle: ch.shortHeading })),
       revision: edMeta.revision,
+      chapters: evald.chapters.map((ch) => ({
+        shortTitle: ch.shortHeading,
+      })),
+      images: SQUARE_COVER_IMAGE_SIZES.map((size) => ({
+        size,
+        url: `${CLOUD_URL}/${edition.squareCoverImagePath(size)}`,
+      })),
     };
   });
 }

@@ -60,7 +60,7 @@ function appAudios(lang: Lang, meta: docMeta.DocumentMeta): Route {
       friend: friend.name,
       friendSort: friend.alphabeticalName,
       reader: audio.reader,
-      artwork: `${CLOUD_URL}/${audio.imagePath}`,
+      artwork: `${CLOUD_URL}/${edition.squareCoverImagePath(1400)}`,
       description: doc.description,
       shortDescription: doc.partialDescription || doc.description,
       parts: audio.parts.map((part, index) => ({
