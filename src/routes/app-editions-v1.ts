@@ -4,7 +4,9 @@ import {
   EditionType,
   Lang,
   SquareCoverImageSize,
+  ThreeDCoverImageWidth,
   SQUARE_COVER_IMAGE_SIZES,
+  THREE_D_COVER_IMAGE_WIDTHS,
 } from '@friends-library/types';
 import { allPublishedEditions } from '@friends-library/friends/query';
 import * as docMeta from '@friends-library/document-meta';
@@ -26,7 +28,11 @@ export interface Resource {
   documentShortDescription: string;
   numTotalPaperbackPages: number;
   isMostModernized: boolean;
-  images: Array<{ size: SquareCoverImageSize; url: string }>;
+  images: {
+    square: Array<{ size: SquareCoverImageSize; url: string }>;
+    threeD: Array<{ width: ThreeDCoverImageWidth; url: string }>;
+  };
+
   chapters: Array<{ shortTitle: string }>;
 }
 
@@ -85,10 +91,16 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
       chapters: evald.chapters.map((ch) => ({
         shortTitle: ch.shortHeading,
       })),
-      images: SQUARE_COVER_IMAGE_SIZES.map((size) => ({
-        size,
-        url: `${CLOUD_URL}/${edition.squareCoverImagePath(size)}`,
-      })),
+      images: {
+        square: SQUARE_COVER_IMAGE_SIZES.map((size) => ({
+          size,
+          url: `${CLOUD_URL}/${edition.squareCoverImagePath(size)}`,
+        })),
+        threeD: THREE_D_COVER_IMAGE_WIDTHS.map((width) => ({
+          width,
+          url: `${CLOUD_URL}/${edition.threeDCoverImagePath(width)}`,
+        })),
+      },
     };
   });
 }
