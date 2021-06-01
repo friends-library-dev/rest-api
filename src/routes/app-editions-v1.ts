@@ -32,8 +32,7 @@ export interface Resource {
     square: Array<{ size: SquareCoverImageSize; url: string }>;
     threeD: Array<{ width: ThreeDCoverImageWidth; url: string }>;
   };
-
-  chapters: Array<{ shortTitle: string }>;
+  chapters: Array<{ id: string; title: string }>;
 }
 
 export type Route = Array<Resource>;
@@ -89,7 +88,8 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
       isMostModernized: edition.isMostModernized,
       revision: edMeta.revision,
       chapters: evald.chapters.map((ch) => ({
-        shortTitle: ch.shortHeading,
+        id: ch.id,
+        title: ch.shortHeading,
       })),
       images: {
         square: SQUARE_COVER_IMAGE_SIZES.map((size) => ({
