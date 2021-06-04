@@ -34,6 +34,7 @@ export interface Resource {
   friend: {
     name: string;
     nameSort: string;
+    isCompilations: boolean;
   };
   ebookHtmlLoggedDownloadUrl: string;
   ebookHtmlDirectDownloadUrl: string;
@@ -120,6 +121,7 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
       friend: {
         name: document.friend.name,
         nameSort: document.friend.alphabeticalName,
+        isCompilations: document.friend.isCompilationsQuasiFriend,
       },
       numTotalPaperbackPages: edMeta.paperback.volumes.reduce((acc, vol) => acc + vol),
       isMostModernized: edition.isMostModernized,
