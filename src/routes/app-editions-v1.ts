@@ -43,6 +43,7 @@ export interface Resource {
   audio: null | {
     reader: string;
     totalDuration: number;
+    publishedDate: string;
     parts: Array<{
       editionId: string;
       index: number;
@@ -123,6 +124,7 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
         nameSort: document.friend.alphabeticalName,
         isCompilations: document.friend.isCompilationsQuasiFriend,
       },
+      // @TODO, normalize for print-sizes
       numTotalPaperbackPages: edMeta.paperback.volumes.reduce((acc, vol) => acc + vol),
       isMostModernized: edition.isMostModernized,
       revision: edMeta.revision,
@@ -130,6 +132,7 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
         ? {
             reader: edition.audio.reader,
             totalDuration: edMeta.audio!.durations.reduce((acc, d) => acc + d),
+            publishedDate: edition.audio.added.toString(),
             parts: edition.audio.parts.map((part, index) => ({
               index,
               editionId: `${document.id}--${edition.type}`,
