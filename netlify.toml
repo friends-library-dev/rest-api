@@ -1,5 +1,5 @@
 [build]
-  command = "rm -rf ./node_modules/@friends-library/friends && npm install && npm run build"
+  command = "rm -rf ./node_modules/@friends-library/friends && npm install && npm run build:netlify"
   publish = "build/"
 
 [dev]
