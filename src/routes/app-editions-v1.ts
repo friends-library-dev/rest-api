@@ -197,7 +197,6 @@ function derive(
 }
 
 // @TODO duplication, see `uri pkg refactor` task in Things app
-// e.g.: https://www.friendslibrary.com/.netlify/functions/site/log/download/e27bc78c-ab04-4020-8c9f-9f1eed4f98e2/en/elizabeth-stirredge/life/updated/epub/Life_of_Elizabeth_Stirredge--updated.epub
 function ebookHtmlLoggedDownloadUrl(dpc: FsDocPrecursor, edition: Edition): string {
   return [
     dpc.lang === `en`
@@ -206,7 +205,6 @@ function ebookHtmlLoggedDownloadUrl(dpc: FsDocPrecursor, edition: Edition): stri
     `.netlify/functions/site/log/download`,
     edition.document.id,
     edition.path,
-    edition.type,
     `app-ebook`,
     edition.filename(`app-ebook`),
   ].join(`/`);
