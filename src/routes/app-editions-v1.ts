@@ -121,7 +121,6 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
         numPages: numPages(edMeta),
       },
       publishedDate: edMeta.published,
-      documentTitle: document.title,
       friend: {
         name: document.friend.name,
         nameSort: document.friend.alphabeticalName,
@@ -229,7 +228,7 @@ function numPages(edMeta: docMeta.EditionMeta): number {
   if (pages.m !== undefined && pages.m !== 0) {
     return pages.m;
   }
-  return pages.s * INFER_MED_SIZE_MULTIPLIER;
+  return Math.floor(pages.s * INFER_MED_SIZE_MULTIPLIER);
 }
 
 // @TODO TRANSLATION
