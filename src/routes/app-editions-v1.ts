@@ -36,9 +36,11 @@ export interface Resource {
     nameSort: string;
     isCompilations: boolean;
   };
-  ebookHtmlLoggedDownloadUrl: string;
-  ebookHtmlDirectDownloadUrl: string;
-  numTotalPaperbackPages: number;
+  ebook: {
+    loggedDownloadUrl: string;
+    directDownloadUrl: string;
+    numPages: number;
+  };
   isMostModernized: boolean;
   audio: null | {
     reader: string;
@@ -113,10 +115,11 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
         shortDescription: document.partialDescription ?? document.description,
       },
       type: edition.type,
-      ebookHtmlLoggedDownloadUrl: ebookHtmlLoggedDownloadUrl(dpc, edition),
-      ebookHtmlDirectDownloadUrl: `${CLOUD_URL}/${dpc.path}/${edition.filename(
-        `app-ebook`,
-      )}`,
+      ebook: {
+        loggedDownloadUrl: ebookHtmlLoggedDownloadUrl(dpc, edition),
+        directDownloadUrl: `${CLOUD_URL}/${dpc.path}/${edition.filename(`app-ebook`)}`,
+        numPages: numPages(edMeta),
+      },
       publishedDate: edMeta.published,
       documentTitle: document.title,
       friend: {
@@ -124,8 +127,6 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
         nameSort: document.friend.alphabeticalName,
         isCompilations: document.friend.isCompilationsQuasiFriend,
       },
-      // @TODO, normalize for print-sizes
-      numTotalPaperbackPages: edMeta.paperback.volumes.reduce((acc, vol) => acc + vol),
       isMostModernized: edition.isMostModernized,
       revision: edMeta.revision,
       audio: edition.audio
@@ -223,9 +224,20 @@ function getPdfSrcResult(dpc: FsDocPrecursor): PdfSrcResult {
   }
 }
 
+function numPages(edMeta: docMeta.EditionMeta): number {
+  const pages = edMeta.paperback.pageData.single;
+  if (pages.m !== undefined && pages.m !== 0) {
+    return pages.m;
+  }
+  return pages.s * INFER_MED_SIZE_MULTIPLIER;
+}
+
 // @TODO TRANSLATION
 function trimmedUtf8ShortDocumentTitle(title: string): string {
   return utf8ShortTitle(title)
     .replace(/^(The|A) /, ``)
     .replace(/^Selection from the (.*)/, `$1 (Selection)`);
 }
+
+// calculated from real data
+const INFER_MED_SIZE_MULTIPLIER = 0.639971767305312;
