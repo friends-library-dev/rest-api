@@ -149,7 +149,7 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
       chapters: getPdfSrcResult(dpc).chapters.map((ch, index) => ({
         index,
         id: ch.id,
-        shortHeading: ch.shortHeading,
+        shortHeading: utf8ShortTitle(ch.shortHeading),
         slug: ch.slug,
         isIntermediateTitle: ch.isIntermediateTitle,
         isSequenced: ch.isSequenced,
