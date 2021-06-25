@@ -1,6 +1,6 @@
 {
   "name": "@friends-library/api",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Friends Library APIs",
   "author": "Jared Henderson <jared@netrivet.com>",
   "repository": "github:friends-library-dev/api",
