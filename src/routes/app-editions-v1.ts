@@ -110,7 +110,7 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
         id: document.id,
         title: document.title,
         utf8ShortTitle: utf8ShortTitle(document.title),
-        trimmedUtf8ShortTitle: trimmedUtf8ShortDocumentTitle(document.title),
+        trimmedUtf8ShortTitle: trimmedUtf8ShortDocumentTitle(document.title, lang),
         description: document.description,
         shortDescription: document.partialDescription ?? document.description,
       },
@@ -231,11 +231,22 @@ function numPages(edMeta: docMeta.EditionMeta): number {
   return Math.floor(pages.s * INFER_MED_SIZE_MULTIPLIER);
 }
 
-// @TODO TRANSLATION
-function trimmedUtf8ShortDocumentTitle(title: string): string {
-  return utf8ShortTitle(title)
-    .replace(/^(The|A) /, ``)
-    .replace(/^Selection from the (.*)/, `$1 (Selection)`);
+function trimmedUtf8ShortDocumentTitle(title: string, lang: Lang): string {
+  if (lang === `en`) {
+    return utf8ShortTitle(title)
+      .replace(/^(The|A) /, ``)
+      .replace(/^Selection from the (.*)/, `$1 (Selection)`);
+  }
+
+  const shortTitle = utf8ShortTitle(title);
+  if (shortTitle.length < 25) {
+    return shortTitle;
+  }
+
+  return shortTitle
+    .replace(/^(El|La|Los|Una?) (?!(Camino|Verdad|Vida)\b)/, ``)
+    .replace(/^Selección de(l| la) (.*)/, `$2 (Selección)`)
+    .replace(/^Vida /, `La Vida `);
 }
 
 // calculated from real data
