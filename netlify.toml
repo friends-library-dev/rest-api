@@ -23,7 +23,7 @@
 
 [[redirects]]
   from = "/cover-props/es/*"
-  to = "/cover-cover/v1/es/:splat"
+  to = "/cover-props/v1/es/:splat"
   status = 301
 
 [[headers]]

@@ -102,7 +102,7 @@ export default generate;
 function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
   const CLOUD_URL = env.requireVar(`CLOUD_STORAGE_BUCKET_URL`);
   return allPublishedEditions(lang).map((edition) => {
-    const [dpc, document, edMeta] = derive(edition, meta);
+    const [dpc, document, edMeta] = editionData(edition, meta);
     return {
       id: `${document.id}--${edition.type}`,
       lang,
@@ -173,7 +173,7 @@ function editions(lang: Lang, meta: docMeta.DocumentMeta): Route {
   });
 }
 
-function derive(
+export function editionData(
   edition: Edition,
   meta: docMeta.DocumentMeta,
 ): [FsDocPrecursor, Document, docMeta.EditionMeta] {
@@ -231,7 +231,7 @@ function numPages(edMeta: docMeta.EditionMeta): number {
   return Math.floor(pages.s * INFER_MED_SIZE_MULTIPLIER);
 }
 
-function trimmedUtf8ShortDocumentTitle(title: string, lang: Lang): string {
+export function trimmedUtf8ShortDocumentTitle(title: string, lang: Lang): string {
   if (lang === `en`) {
     return utf8ShortTitle(title)
       .replace(/^(The|A) /, ``)
