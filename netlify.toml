@@ -2,6 +2,9 @@
   command = "rm -rf ./node_modules/@friends-library/friends ./en ./es && npm install && npm run build:netlify"
   publish = "build/"
 
+[build.environment]
+  NODE_OPTIONS = "--unhandled-rejections=strict"
+
 [dev]
   autoLaunch = false
 
